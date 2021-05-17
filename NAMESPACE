@@ -1,0 +1,3 @@
+exportPattern("^[[:alpha:]]+")
+importFrom("methods", "hasArg")
+importFrom("stats", "biplot", "optimize", "screeplot")
