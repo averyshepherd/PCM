@@ -213,3 +213,5 @@ phyloANOVA(tree,x,y2)
 ```
 
 The results of the phyloANOVA show a difference in means between the three groups a, b, and c in y2, but not in y1.
+
+Example and functions from Liam Revell (phytools).
