@@ -1,10 +1,10 @@
-#' @title Phylogenetic heatmap
-#' @description This function allows you to heatmap
-#' @param tree tree
-#' @param Y Y
-#' @param method method
-#' @param mode mode
-#' @keywords heatmap
+#' @title Phylogenetic PCA
+#' @description This function performs phylogenetic PCA
+#' @param tree phylogeny as an object of class "phylo"
+#' @param Y data matrix with traits in columns
+#' @param method method to obtain the correlation structure: can be "BM" or "lambda"
+#' @param mode can be "cov" or "corr"
+#' @keywords PCA
 #' @export
 
 pca<-function(tree,Y,method="BM",mode="cov"){
