@@ -1,10 +1,12 @@
-#' @title Phylogenetic heatmap
+#' @title Phylogenetic ANOVA
 #' @description This function allows you to heatmap
-#' @param tree tree
-#' @param Y Y
-#' @param method method
-#' @param mode mode
-#' @keywords heatmap
+#' @param tree a phylogenetic tree in "phylo" format.
+#' @param x a vector containing the groups.
+#' @param y a vector containing the response variable (continuously valued).
+#' @param nsim an integer specifying the number of simulations (including the observed data).
+#' @param posthoc a logical value indicating whether or not to conduct posthoc tests to compare the mean among groups
+#' @param p.adj method to adjust P-values for the posthoc tests to account for multiple testing. Options same as p.adjust.
+#' @keywords phylogenetic ANOVA
 #' @export
 
 phyloANOVA<-function(tree,x,y,nsim=1000,posthoc=TRUE,p.adj="holm"){

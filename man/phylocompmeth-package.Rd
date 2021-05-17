@@ -9,7 +9,7 @@
 The function included in this package
 }
 \author{
-\strong{Maintainer}: Avery Shepherd \email{ashepherd@utexas.edu}
+\strong{Maintainer}: Audrey Bahr \email{audrey_bahr@utexas.edu}
 
 }
 \keyword{internal}

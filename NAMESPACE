@@ -1,3 +1,4 @@
 exportPattern("^[[:alpha:]]+")
 importFrom("methods", "hasArg")
 importFrom("stats", "biplot", "optimize", "screeplot")
+importFrom("stats", "anova", "lm", "p.adjust", "sd")

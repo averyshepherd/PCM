@@ -2,20 +2,20 @@
 % Please edit documentation in R/PCA.R
 \name{pca}
 \alias{pca}
-\title{Phylogenetic heatmap}
+\title{Phylogenetic PCA}
 \usage{
 pca(tree, Y, method = "BM", mode = "cov")
 }
 \arguments{
-\item{tree}{tree}
+\item{tree}{phylogeny as an object of class "phylo"}
 
-\item{Y}{Y}
+\item{Y}{data matrix with traits in columns}
 
-\item{method}{method}
+\item{method}{method to obtain the correlation structure: can be "BM" or "lambda"}
 
-\item{mode}{mode}
+\item{mode}{can be "cov" or "corr"}
 }
 \description{
-This function allows you to heatmap
+This function performs phylogenetic PCA
 }
-\keyword{heatmap}
+\keyword{PCA}

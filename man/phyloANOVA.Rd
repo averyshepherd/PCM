@@ -2,20 +2,25 @@
 % Please edit documentation in R/phyloANOVA.R
 \name{phyloANOVA}
 \alias{phyloANOVA}
-\title{Phylogenetic heatmap}
+\title{Phylogenetic ANOVA}
 \usage{
 phyloANOVA(tree, x, y, nsim = 1000, posthoc = TRUE, p.adj = "holm")
 }
 \arguments{
-\item{tree}{tree}
+\item{tree}{a phylogenetic tree in "phylo" format.}
 
-\item{Y}{Y}
+\item{x}{a vector containing the groups.}
 
-\item{method}{method}
+\item{y}{a vector containing the response variable (continuously valued).}
 
-\item{mode}{mode}
+\item{nsim}{an integer specifying the number of simulations (including the observed data).}
+
+\item{posthoc}{a logical value indicating whether or not to conduct posthoc tests to compare the mean among groups}
+
+\item{p.adj}{method to adjust P-values for the posthoc tests to account for multiple testing. Options same as p.adjust.}
 }
 \description{
 This function allows you to heatmap
 }
-\keyword{heatmap}
+\keyword{ANOVA}
+\keyword{phylogenetic}

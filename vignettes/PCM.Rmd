@@ -18,58 +18,92 @@ knitr::opts_chunk$set(
 library(phylocompmeth)
 ```
 
+## Introduction to phylogenies
+Phylogenetic trees are branching diagrams illustrating the evolutionary relationships among taxa. 
+
+* Each **node** represents a speciation event in evolution.
+
+* A **branch** connects two nodes of the tree
+
+* **Terminal Nodes** represent the data under comparison. Also known as **Operational Taxonomic Units** *(OTUs)*
+
+## Introduction to Phylogenetic comparative methods (PCMs)
+PCMs enable us to study the history of organismal evolution and diversification. With it we can explore in depth these topics:
+
+* Evolutionary ties between organisms
+
+* Find and understand relationships between an ancestral sequence and its descendants
+
+* Estimate time of divergence between a group of organisms that share a common ancestor
+
+## <code>APE</code> package and the <code>phylo</code> class
+The <code>ape</code> package (Analysis of Phylogenetics and Evolution) is used within the community of evolutionary biologists for data analysis and as a framework for the development of new analytical methods.
+```{r}
+library(ape)
+```
+
+To read and load trees into R using ape, you can use the <code>read.nexus</code> or <code>read.tree</code> functions. The <code>read.nexus</code> function reads NEXUS formatted files while the <code>read.tree</code> function reads Newick formatted trees.
+```{r}
+f <- "https://raw.githubusercontent.com/averyshepherd/phylocompmethods/main/Potential%20Nexus%20Files/T6506.nex"
+tree <- read.nexus(f)
+```
+
+When the tree is read in and processed, it creates a list of class phylo. This phylo type is the basis of most PCMs. 
+```{r}
+class(tree)
+str(tree)
+```
+
+The <code>edge</code> variable in the tree contains the beginning and ending node number for the nodes and tips in the tree
+```{r}
+head(tree$edge)
+```
+
+The <code>tip.label</code> variable in the tree contains  the labels for the tips in the tree
+```{r}
+head(tree$tip.label)
+```
+
+<code>Nnode</code> contains the number of internal nodes in the tree
+```{r}
+head(tree$Nnode)
+```
+
+Graphical output in form of a cladogram can be obtained by calling <code>plot</code> with the tree as a parameter. This calls the <code>plot.phylo</code> function of the <code>ape</code> package. 
+```{r fig1, fig.height = 6, fig.width = 5}
+plot(tree, cex = 0.6, type = "cladogram")
+```
+
+## Phytools package
+The <code>phytools</code> package (Phylogenetic Tools for Comparative Biology (and Other Things)) takes advantage of functionality developed in other packages such as <code>ape</code> for many types of phylogenetic tree input and manipulation 
 ```{r}
 library(phytools)
 ```
 
-The <code>phylo.heatmap</code> function creates a multivariate phylogenetic heatmap
-
-```{r}
-library(maps)
-```
-
 To read and load trees into R for <code>phytools</code> for this function, you can use <code>anoletree</code> which is a phylogeny of Greater Antillean anole species with a mapped discrete character - ecomorph class and <code>anole.data</code> which is a data frame of morphological characters (both data and tree are from Mahler et al. 2010)
-
+## Residuals
+You can compute the phylogenetic residuals as such
 ```{r}
-data("anoletree")
-data("anole.data")
-```
-
-Using <code>as.matrix</code> you can convert the anole data table into a matrix 
-
-```{r}
-anole.data <-as.matrix(anole.data)
-```
-
-Next you can compute the phylogenetic residuals. 
-
-```{r}
-anole.data<-as.matrix(anole.data)
 anole.resids<-cbind(anole.data[,1],
     phyl.resid(anoletree,anole.data[,1,drop=FALSE],
     anole.data[,2:ncol(anole.data)])$resid)
 colnames(anole.resids)[1]<-"SVL"
-
 ```
 
+### Heatmap
 You can plot the phylogenetic heatmap using <code>phylo.heatmap</code>
-
 ```{r}
 phylo.heatmap(anoletree,anole.resids,
     split=c(0.7,0.3),fsize=c(0.4,0.8,0.8),
     standardize=TRUE)
 ```
 
-The <code>phyl.pca</code> function performs phylogenetic PCA
+
+### Principal component analysis with PCM
+The <code>pca</code> function performs phylogenetic PCA
 
 You can use the same anole data set from Mahler et al. 
-
-```{r}
-data(anoletree)
-data(anole.data)
-```
-
-Using <code>phyl.pca</code> allows you to run the phylogenetic PCA 
+Using <code>pca</code> from the PCM package allows you to run the phylogenetic PCA 
 ```{r}
 anole.pca <- pca(anoletree, anole.data)
 ```
@@ -92,14 +126,11 @@ To visualize the loadings, you can use <code>biplot</code>
 biplot(anole.pca)
 ```
 
+
+### Map visualizations
 'phylo.to.map' creates an object of class "phylo.to.map" and plots that object (where tips of the tree point to coordinates on a geographic map). It is possible to map more than one geographic location per taxon.
 
-```{r}
-library(mapdata)
-```
-
 We can simulate a phylogenetic tree to plot with <code>pb.tree()</code>.
-
 ```{r}
 # 10 species, total length of the tree is 100
 World.tree<-pbtree(n=10,scale=100)
@@ -142,7 +173,8 @@ cols<-setNames(sample(rainbow(n=Ntip(World.tree))),
 plot(obj,colors=cols,ftype="i",fsize=0.8,cex.points=c(0.7,1.2))
 ```
 
-Next, we will look at <code>phylANOVA()</code> which performs simulation based phylogenetic ANOVA and can conduct post-hoc comparisons of means among groups.
+### ANOVA and PCM
+Next, we will look at <code>phyolANOVA()</code> which performs simulation based phylogenetic ANOVA and can conduct post-hoc comparisons of means among groups.
 
 ```{r}
 # simulate data for the analysis
@@ -173,14 +205,6 @@ tiplabels(pie=to.matrix(x,letters[1:3]),
     piecol=colorRampPalette(c("blue", "yellow"))(3),
     cex=0.4)
 ```
-
-```{r}
-phylANOVA(tree,x,y1)
-```
-```{r}
-phylANOVA(tree,x,y2)
-```
-
 
 ```{r}
 phyloANOVA(tree,x,y1)
